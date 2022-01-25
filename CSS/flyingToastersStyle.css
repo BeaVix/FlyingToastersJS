@@ -127,33 +127,9 @@ body{
 	background: transparent;
 }
 
-.settings .slider input[type=range]::-webkit-slider-thumb {
-	background-image: url(../imgs/Thumb.png);
-	border: none;
-	height: 15px;
-	width: 7px;
-	cursor: pointer;
-	
-}
-
 .settings .slider input[type=range]:focus {
 	outline: none;
 }
-
-.settings .slider input[type=range]::-ms-track {
-	width: 100%;
-	cursor: pointer;
-	background: transparent; 
-	color: transparent;
-	border: 1px solid black;
-}
-
-.settings .slider input[type=range]::-ms-thumb {
-	background-image: url(../imgs/Thumb.png);
-	border: none;
-	height: 15px;
-	width: 7px;
-	cursor: pointer;
 
 .settings .slider input[type=range]::-moz-range-thumb {
 	background-image: url(../imgs/Thumb.png);
