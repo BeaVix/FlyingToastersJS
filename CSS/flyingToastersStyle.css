@@ -129,7 +129,7 @@ body{
 
 .settings .slider input[type=range]::-webkit-slider-thumb {
 	-webkit-appearance: none;
-	background-image: url(../imgs/Thumb.png);
+	background-image: url(../imgs/Thumb.gif);
 	margin-top: -6px;
 	height: 15px;
 	width: 7px;
@@ -154,7 +154,7 @@ body{
 }
 
 .settings .slider input[type=range]::-ms-thumb {
-	background-image: url(../imgs/Thumb.png);
+	background-image: url(../imgs/Thumb.gif);
 	border: none;
 	height: 15px;
 	width: 7px;
@@ -162,7 +162,7 @@ body{
 }
 
 .settings .slider input[type=range]::-moz-range-thumb {
-	background-image: url(../imgs/Thumb.png);
+	background-image: url(../imgs/Thumb.gif);
 	border: none;
 	height: 15px;
 	width: 7px;
@@ -173,6 +173,10 @@ body{
 	width: 100%;
 	height: 2px;
 	border: 1px solid black;
+}
+
+#checkbox{
+	cursor: pointer;
 }
 
 .blank-space{
@@ -218,11 +222,11 @@ body{
 }
 
 .tstrColor{
-	background-image: url('../imgs/toaster-sprite.gif');
+	background-image: url('../imgs/Spritesheet.gif');
 }
 
 .tstrNoColor{
-	background-image: url('../imgs/spritesheet.png');
+	background-image: url('../imgs/BWSpritesheet.gif');
 }
 
 .toast{
@@ -232,19 +236,19 @@ body{
 }
 
 .tstLight{
-	background-image: url('../imgs/toast1.gif');
+	background-image: url('../imgs/toast.gif');
 }
 
 .tstMedium{
-	background-image: url('../imgs/MediumToast.png');
+	background-image: url('../imgs/toastMedium.gif');
 }
 
 .tstDark{
-	background-image: url(../imgs/BurntToast.png);
+	background-image: url(../imgs/toastBurnt.gif);
 }
 
 .tstNoColor{
-	background-image: url('../imgs/File0015.gif');
+	background-image: url('../imgs/BWToast.gif');
 }
 
 @keyframes flap{

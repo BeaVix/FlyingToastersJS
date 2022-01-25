@@ -173,6 +173,7 @@ const burntStatus = document.getElementById('burntness-status');
 const exit = document.getElementById('exit');
 const panel = document.getElementById('cntrlPnl');
 const header = document.getElementById('header');
+const checkbox = document.getElementById('checkbox');
 const scrnWidth = window.screen.availWidth;
 const scrnHeight = window.screen.availHeight;
 const node = document.getElementById('toasters');
@@ -297,21 +298,23 @@ function changeColor() {
 		toasterColor = 'tstrNoColor';
 		toastColor = 'tstNoColor';
 		colorChecked = false;
+		checkbox.setAttribute('src', 'imgs/checkbox.png');
 		break;
 
 		case false:
-		toasterColor = 'tstrColor';
-		switch (burntStatus.textContent){
-			case 'Light':
-			toastColor = 'tstLight';
-			break;
-			case 'Medium':
-			toastColor = 'tstMedium';
-			break;
-			case 'Burnt':
-			toastColor = 'tstDark';
-			break;
+			toasterColor = 'tstrColor';
+			switch (burntStatus.textContent){
+				case 'Light':
+				toastColor = 'tstLight';
+				break;
+				case 'Medium':
+				toastColor = 'tstMedium';
+				break;
+				case 'Burnt':
+				toastColor = 'tstDark';
+				break;
 		}
+		checkbox.setAttribute('src', 'imgs/checkboxChecked.png');
 		colorChecked = true;
 		break;
 	}
