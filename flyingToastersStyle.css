@@ -1,11 +1,11 @@
 @font-face{
 	font-family: 'Chicago';
-	src: url('Chicago/chicago.ttf');
+	src: url('fonts/Chicago/chicago.ttf');
 }
 
 @font-face{
 	font-family: 'AppleII';
-	src: url('Apple II/AppleII.ttf');
+	src: url('fonts/Apple II/AppleII.ttf');
 }
 
 body{
