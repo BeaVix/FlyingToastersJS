@@ -348,6 +348,7 @@ function unHide() {
 	let pass = 0;
 	let obj = eval("Flyer_" + pass);
 	let objType = obj.type;
+	let colorToaster;
 	while(objType != 'Hidden'){
 		pass += 1;
 		try {
@@ -358,7 +359,15 @@ function unHide() {
 		}
 		objType = obj.type;
 	}
-	obj.changeType('Hidden', 'toaster', 'tstrColor');
+	switch(colorChecked){
+		case true:
+			colorToaster = 'tstrColor';
+			break;
+		case false:
+			colorToaster = 'tstrNoColor';
+			break;
+	}
+	obj.changeType('Hidden', 'toaster', colorToaster);
 	obj.reset();
 	totalFlyers += 1;
 }
