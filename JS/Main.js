@@ -404,7 +404,6 @@ function closePanel(){
 
 color.addEventListener("click", changeColor);
 exit.addEventListener("click", closePanel);
-header.addEventListener("drag", movePanel);
 
 for (let i = 0; i < flyingObjs; i++) {
 	spawnFlyers();
