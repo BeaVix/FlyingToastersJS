@@ -1,0 +1,235 @@
+@font-face{
+	font-family: 'Chicago';
+	src: url('../fonts/Chicago/chicago.ttf');
+}
+
+@font-face{
+	font-family: 'AppleII';
+	src: url('../fonts/Apple II/AppleII.ttf');
+}
+
+body{
+	background-color: black;
+	overflow: hidden;
+}
+
+/* Control panel style */
+.cntrlPnl{
+	display: grid;
+	grid-auto-rows: minmax(min-content, max-content);
+	gap: 4px;
+	position: absolute;
+	z-index: 2;
+	width: 236px;
+	height: 274px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	background-image: url(../imgs/Dither.png);
+}
+
+.header{
+	grid-column-end: span 4;
+	display: grid;
+	grid-auto-flow: column;
+	height: 15px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: rgb(163, 163, 215) rgb(204, 204, 255) rgb(204, 204, 255) rgb(163, 163, 215);
+	box-shadow: 0px 1px black;
+	background-color: rgb(238, 238, 238);
+	line-height: 0;
+	font-family: Chicago;
+	font-size: 12px;
+}
+
+#exit{
+	position: relative;
+	top: 2px;
+	cursor: pointer;
+}
+
+.header p{
+	margin: auto;
+	position: relative;
+	bottom: 3px;
+}
+
+.header p::before{
+	content: url(../imgs/Lines.png);
+	position: relative;
+	top: 1px;
+}
+
+.header p::after{
+	content: url(../imgs/LinesLong.png);
+	position: relative;
+	top: 3px;
+}
+
+.gapLeft{
+	grid-column-start: 1;
+	grid-row-start: 2;
+	grid-row-end: span 3;
+}
+
+.banner{
+	grid-column-start: 2;
+	grid-row-start: 2;
+	width: 155px;
+	height: 40px;
+	border: 1px solid black;
+}
+
+.onOff{
+	grid-column-start: 3;
+	grid-row-start: 2;
+	background-color: white;
+	width: 60px;
+	border: 1px solid black;
+	font-family: AppleII;
+	font-size: 15px;
+}
+
+.secondRow{
+	grid-column-start: 2;
+	grid-column-end: span 2;
+	grid-row-start: 3;
+	display: grid;
+	gap: 4px;
+}
+
+.select{
+	width: 93px;
+	height: 162px;
+	border: 1px solid black;
+	background-color: white;
+}
+
+.settings{
+	grid-column-start: 2;
+	width: 119px;
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid black;
+	background-color: white;
+	font-family: AppleII;
+	font-size: 15px;
+}
+
+.slider p{
+	margin: auto;
+}
+
+.settings .slider input[type=range]{
+	-webkit-appearance: none;
+	width: 100%;
+	background: transparent;
+}
+
+.settings .slider input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+
+.settings .slider input[type=range]:focus {
+	outline: none;
+}
+
+.settings .slider input[type=range]::-ms-track {
+	width: 100%;
+	cursor: pointer;
+	background: transparent; 
+	border-color: transparent;
+	color: transparent;
+}
+
+.settings .slider input[type=range]::-moz-range-thumb {
+	background-image: url(../imgs/Thumb.png);
+	border: none;
+	height: 15px;
+	width: 7px;
+	cursor: pointer;
+}
+
+.settings .slider input[type=range]::-moz-range-track{
+	width: 100%;
+	height: 2px;
+	border: 1px solid black;
+}
+
+.blank-space{
+	height: 27px;
+}
+
+.bottom-settings{
+	display: grid;
+	grid-auto-flow: column;
+	padding-top: 4px;
+	border-top: 1px solid black;
+}
+
+.credits{
+	grid-column-start: 2;
+	grid-column-end: span 2;
+	grid-row-start: 4;
+	width: 222px;
+	height: 29px;
+	padding-left: 3px;
+	border: 1px solid black;
+	background-color: white;
+	font-family: AppleII;
+	font-size: 16px;
+}
+
+.gapRight{
+	grid-column-start: 4;
+	grid-row-start: 2;
+	grid-row-end: span 3;
+}
+
+/*Control panel style*/
+
+
+/*Toasts/Toasters style*/
+
+.toaster{
+	position: absolute;
+	width: 64px;
+	height: 64px;
+	animation: flap .1s steps(4) infinite alternate;
+}
+
+.tstrColor{
+	background-image: url('../imgs/toaster-sprite.gif');
+}
+
+.tstrNoColor{
+	background-image: url('../imgs/spritesheet.png');
+}
+
+.toast{
+	position: absolute;
+	width: 64px;
+	height: 64px;
+}
+
+.tstLight{
+	background-image: url('../imgs/toast1.gif');
+}
+
+.tstMedium{
+	background-image: url('../imgs/MediumToast.png');
+}
+
+.tstDark{
+	background-image: url(../imgs/BurntToast.png);
+}
+
+.tstNoColor{
+	background-image: url('../imgs/File0015.gif');
+}
+
+@keyframes flap{
+	from { background-position:    0px; }
+	to { background-position: -256px; }
+}
