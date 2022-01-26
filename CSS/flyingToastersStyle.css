@@ -41,6 +41,7 @@ body{
 	line-height: 0;
 	font-family: Chicago;
 	font-size: 12px;
+	cursor: grab;
 }
 
 #exit{
@@ -116,6 +117,8 @@ body{
 	font-family: AppleII;
 	font-size: 15px;
 }
+
+/*Control panel sliders style*/
 
 .slider p{
 	margin: auto;
@@ -209,8 +212,24 @@ body{
 	grid-row-end: span 3;
 }
 
-/*Control panel style*/
+/*Panel icon style*/
+.panelIcon{
+	display: none;
+	background-image: url('../imgs/ADIcon.gif');
+	position: absolute;
+	z-index: 2;
+	width: 32px;
+	height: 32px;
+	animation-name: fadeOut;
+	animation-duration: 1.5s;
+	animation-fill-mode: forwards;
+}
 
+.panelIcon:hover{
+	animation-name: fadeIn;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
 
 /*Toasts/Toasters style*/
 
@@ -251,7 +270,19 @@ body{
 	background-image: url('../imgs/BWToast.gif');
 }
 
-@keyframes flap{
+/*Animations*/
+@keyframes flap{ /*toaster wing flapping*/
 	from { background-position:    0px; }
 	to { background-position: -256px; }
 }
+
+@keyframes fadeIn{
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes fadeOut{
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+

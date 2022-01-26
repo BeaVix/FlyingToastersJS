@@ -60,155 +60,148 @@ class flyer{
 		moveObj.style.bottom = this._posY + "px";
 	}
 	
-	changeType(type, newType, hasColor){ //'type' argument is the type expected to change from, not neccesarly the type of the object.
-	if (this.type == type){
-		let totalType = "total" + (type.replace(/\bt/, "T")) + "s";
-		let totalNewType = "total" + (newType.replace(/\bt/, "T")) + "s";
-		let existsID = eval("newType + " + totalNewType);
-		let elmnt = this.HTMLElement();
-		let exists = document.getElementById(existsID);
-		let pass = 1;
-		eval(totalNewType + " += 1");
-		eval(totalType + " -= 1");
-		this.type = newType;
-		elmnt.className = newType + " " + hasColor;
-		while(exists != null){
-			existsID = eval("newType + ( " + totalNewType + " + pass)");
-			exists = document.getElementById(existsID);
-			pass += 1;
+	// Changes object type and updates counters and element's classes accordingly
+	changeType(type, newType, hasColor){
+		if (this.type == type){
+			let totalType = "total" + (type.replace(/\bt/, "T")) + "s", totalNewType = "total" + (newType.replace(/\bt/, "T")) + "s"; //eval + regex hackery
+			let existsID = eval("newType + " + totalNewType);
+			let elmnt = this.HTMLElement();
+			let exists = document.getElementById(existsID);
+			let pass = 1;
+			eval(totalNewType + " += 1");
+			eval(totalType + " -= 1");
+			this.type = newType;
+			elmnt.className = newType + " " + hasColor;
+			while(exists != null){
+				existsID = eval("newType + ( " + totalNewType + " + pass)");
+				exists = document.getElementById(existsID);
+				pass += 1;
+			}
+			this.nro = existsID;
+			elmnt.id = this._nro;
 		}
-		this.nro = existsID;
-		elmnt.id = this._nro;
 	}
-}
 
-reset(){
-	let choose = Math.floor(Math.random() *2);
-	let colorClass;
-	let speed =  Math.floor(Math.random() * 3) + 1;
-	switch (choose){
-		case 0:
-		switch(colorChecked) {
-			case true:
-			colorClass = "tstrColor";
+	// Randomizes type and attributes of object
+	reset(){
+		let choose = Math.floor(Math.random() *2);
+		let colorClass, newType, changeFrom;
+		let speed =  Math.floor(Math.random() * 3) + 1;
+		switch (choose){
+			case 0: //Object is toaster
+				newType = "toaster";
+				changeFrom = "toast";
+				switch(colorChecked) {
+					case true:
+						colorClass = "tstrColor";
+						break;
+					case false:
+						colorClass = "tstrNoColor";
+						break;
+				}
+
+			switch(speed){
+				case 1:
+					this.speed = 30;
+					break;
+				case 2:
+					this.speed = 15;
+					break;
+				case 3:
+					this.speed = 6;
+					break;
+			}
 			break;
-			case false:
-			colorClass = "tstrNoColor";
-			break;
-		}
-		this.changeType("toast", "toaster", colorClass);		
-		switch(speed){
-			case 1:
+
+			case 1: //Object is toast
+				newType = "toast";
+				changeFrom = "toaster";
+				if (colorChecked == true) { //checks color and current burntness status
+					switch (burntStatus.textContent){
+						case "Light":
+							colorClass = "tstLight";
+							break;
+						case "Medium":
+							colorClass = "tstMedium";
+							break;
+						case "Burnt":
+							colorClass = "tstDark";
+							break
+					}
+				} else{
+					colorClass = "tstNoColor";
+				}
 			this.speed = 30;
 			break;
-			case 2:
-			this.speed = 15;
-			break;
-			case 3:
-			this.speed = 6;
-			break;
 		}
-		break;
-		case 1:
-		if (colorChecked == true) {
-			switch (burntStatus.textContent){
-				case "Light":
-				colorClass = "tstLight";
-				break;
-				case "Medium":
-				colorClass = "tstMedium";
-				break;
-				case "Burnt":
-				colorClass = "tstDark";
-				break
-			}
-		} else{
-			colorClass = "tstNoColor";
-		}
-		this.changeType("toaster", "toast", colorClass);
-		this.speed = 30;
-		break;
+		this.changeType(changeFrom, newType, colorClass);
+		this.fly();
 	}
-	this.fly();
-}
 
-fly(){
-	let actualPosX = this._posX;
-	let actualPosY = this._posY;
-	let elmnt = this.HTMLElement();
-	const targetPos = -64;
-	const obj = this;
-	const animator = setInterval(function() {
-		if (actualPosX == targetPos) {
-			clearInterval(animator);
-			elmnt.style.left = scrnWidth;
-			obj._posX = scrnWidth;
-			actualPosX = obj._posX;
-			obj.reset()
-		} else if (actualPosY == targetPos) {
-			clearInterval(animator);
-			elmnt.style.bottom = scrnHeight;
-			obj._posY = scrnHeight;
-			actualPosY = obj.posY;
-			obj.reset();
-		} else{
-			obj.moveX();
-			actualPosX = obj.posX;
-			obj.moveY();
-			actualPosY = obj.posY;
+	// Sets interval that moves object until it reaches edges of the screen
+	fly(){
+		let actualPosX = this._posX, actualPosY = this._posY;
+		let elmnt = this.HTMLElement();
+		const targetPos = -64;
+		const obj = this;
+		const animator = setInterval(function() {
+			if (actualPosX == targetPos) {
+				clearInterval(animator);
+				elmnt.style.left = scrnWidth;
+				obj._posX = scrnWidth;
+				actualPosX = obj._posX;
+				obj.reset()
+			} else if (actualPosY == targetPos) {
+				clearInterval(animator);
+				elmnt.style.bottom = scrnHeight;
+				obj._posY = scrnHeight;
+				actualPosY = obj.posY;
+				obj.reset();
+			} else{
+				obj.moveX();
+				actualPosX = obj.posX;
+				obj.moveY();
+				actualPosY = obj.posY;
+			}
+		}, obj.speed);
+		this._interval = animator;
+	} 
+
+	// Clears currently running interval
+	stop(){
+		clearInterval(this._interval);
 		}
-	}, obj.speed);
-	this._interval = animator;
-} 
+}
 
-stop(){
-	clearInterval(this._interval);
-}
-}
-const flyingObjsSlider = document.getElementById('flying-objects-slider');
-const flyingObjsCount = document.getElementById('flying-objects-count');
-const color = document.getElementById('color');
-const burntness = document.getElementById('burntness-slider');
-const burntStatus = document.getElementById('burntness-status');
-const exit = document.getElementById('exit');
-const panel = document.getElementById('cntrlPnl');
-const header = document.getElementById('header');
-const checkbox = document.getElementById('checkbox');
-const scrnWidth = window.screen.availWidth;
-const scrnHeight = window.screen.availHeight;
+const flyingObjsSlider = document.getElementById('flying-objects-slider'), flyingObjsCount = document.getElementById('flying-objects-count');
+const color = document.getElementById('color'), checkbox = document.getElementById('checkbox');
+const burntness = document.getElementById('burntness-slider'),burntStatus = document.getElementById('burntness-status');
+const panel = document.getElementById('cntrlPnl'), header = document.getElementById('header'), exit = document.getElementById('exit');
+const panelIcon = document.getElementById('panelIcon');
 const node = document.getElementById('toasters');
+const scrnWidth = window.screen.availWidth, scrnHeight = window.screen.availHeight;
 
-let flyingObjs = 15;
-let totalToasters = 0;
-let totalToasts = 0;
-let totalFlyers = 0;
-let totalHiddens = 0;
-let colorChecked = true;
+let flyingObjs = 15, totalToasters = 0, totalToasts = 0, totalFlyers = 0, totalHiddens = 0, colorChecked = true;
 
-
+// Creates new flyer object and randomizes it's attributes
 function spawnFlyers() {
-	let choose = Math.floor(Math.random() * 2);
-	let posX = Math.round(Math.random() * scrnWidth + 1);
-	let posY = Math.round(Math.random() * scrnHeight + 1);
-	let type;
-	let speed;
-	let existsID;
-	let exists;
-	let pass;
-	let HTMLFlyer = document.createElement('div');;
+	let choose = Math.floor(Math.random() * 2); //Chooses type of object
+	let posX = Math.round(Math.random() * scrnWidth + 1), posY = Math.round(Math.random() * scrnHeight + 1); //Chooses X and Y position
+	let type, speed, existsID, exists, pass;
+	let HTMLFlyer = document.createElement('div');
 	switch(choose){
-		case 0:
+		case 0: //Object is toaster
 		totalToasters += 1;
 		type = 'toaster';
-		speed = (Math.floor(Math.random() * 3)) + 1;
+		speed = (Math.floor(Math.random() * 3));
 		switch(speed){
-			case 1:
+			case 0:
 			speed = 30;
 			break;
-			case 2:
+			case 1:
 			speed = 15;
 			break;
-			case 3:
+			case 2:
 			speed = 6;
 			break;
 		}
@@ -221,7 +214,7 @@ function spawnFlyers() {
 			pass += 1;
 		}
 
-		switch (colorChecked == true) {
+		switch (colorChecked) {
 			case true:
 			HTMLFlyer.className = "toaster tstrColor";
 			break;
@@ -231,7 +224,7 @@ function spawnFlyers() {
 		}
 		break;
 
-		case 1:
+		case 1: //Object is toast
 		totalToasts += 1;
 		type = 'toast';
 		speed = 30;
@@ -275,9 +268,9 @@ function spawnFlyers() {
 	newFlyer.fly();
 }
 
+// Updates classes of either all elements or only toast elements for sprite changing purposes
 function spriteChange(toasterClass, toastClass, onlyToast){
-	let toasters = document.getElementsByClassName('toaster');
-	let toasts = document.getElementsByClassName('toast');
+	let toasters = document.getElementsByClassName('toaster'), toasts = document.getElementsByClassName('toast');
 	for (let i = 0; i < toasts.length; i++) {
 		toasts[i].className = "toast " + toastClass;
 	}
@@ -289,38 +282,7 @@ function spriteChange(toasterClass, toastClass, onlyToast){
 	}
 }
 
-
-function changeColor() {
-	let toasterColor;
-	let toastColor;
-	switch (colorChecked) {
-		case true:
-		toasterColor = 'tstrNoColor';
-		toastColor = 'tstNoColor';
-		colorChecked = false;
-		checkbox.setAttribute('src', 'imgs/checkbox.png');
-		break;
-
-		case false:
-			toasterColor = 'tstrColor';
-			switch (burntStatus.textContent){
-				case 'Light':
-				toastColor = 'tstLight';
-				break;
-				case 'Medium':
-				toastColor = 'tstMedium';
-				break;
-				case 'Burnt':
-				toastColor = 'tstDark';
-				break;
-		}
-		checkbox.setAttribute('src', 'imgs/checkboxChecked.png');
-		colorChecked = true;
-		break;
-	}
-	spriteChange(toasterColor, toastColor, false);
-}
-
+// Hides elements
 function hide() {
 	let pass = 0;
 	let obj = eval("Flyer_" + pass);
@@ -335,15 +297,17 @@ function hide() {
 		}
 		objType = obj.type;
 	}
-	let objTotal = "total" + (objType.replace(/\bt/, "T")) + "s";		
-	eval(objTotal + " -= 1");
+	let objTotal = "total" + (objType.replace(/\bt/, "T")) + "s";
+	let HTMLToaster = obj.HTMLElement();
+	HTMLToaster.className = "Hidden";
 	obj.type = "Hidden";
 	obj.stop()
+	eval(objTotal + " -= 1");
 	totalFlyers -= 1;
-	let HTMLToaster = obj.HTMLElement();
-	HTMLToaster.className = "Hidden";	
+	totalHiddens += 1;
 }
 
+// Unhides elements
 function unHide() {
 	let pass = 0;
 	let obj = eval("Flyer_" + pass);
@@ -393,29 +357,106 @@ burntness.oninput = function() {
 	}
 }
 
+// Updates the counter for flying objects in the control panel and shows/removes objects accordingly
 flyingObjsSlider.oninput = function() {
 	flyingObjsCount.innerHTML = this.value;
 	flyingObjs = this.value;
-	if (totalFlyers < flyingObjs) {
+	if (totalFlyers < flyingObjs) { // The number of currently visible objects is less than the flying objects counter
 		for (let i = 0; i < (flyingObjs - totalFlyers); i++) {
 			switch(unHide()){
 				case true:
 				spawnFlyers();
 			}
 		}
-	} else if (totalFlyers > flyingObjs) {
+	} else if (totalFlyers > flyingObjs) { // The number of currently visible objects is more than the flying objects counter
 		for (let i = 0; i < (totalFlyers - flyingObjs); i++) {
 			hide();
 		}
 	}
 }
 
-function closePanel(){
-	panel.style.display = "none";
+// Makes control panel draggable
+dragElement(panel);
+
+function dragElement(elmnt) {
+	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	header.onmousedown = dragMouseDown;
+
+	function dragMouseDown(e) {
+		header.style.cursor = "grabbing";
+		e = e || window.event;
+		e.preventDefault();
+		// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmouseup = closeDragElement;
+		// call a function whenever the cursor moves:
+		document.onmousemove = elementDrag;
+	}
+
+	function elementDrag(e) {
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		pos1 = pos3 - e.clientX;
+		pos2 = pos4 - e.clientY;
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		// set the element's new position:
+		elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+		elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 }
 
-color.addEventListener("click", changeColor);
-exit.addEventListener("click", closePanel);
+	function closeDragElement() {
+		/* stop moving when mouse button is released:*/
+		document.onmouseup = null;
+		document.onmousemove = null;
+		header.style.cursor = "grab";
+  }
+}
+
+// Changes sprites to black and white or full color when color checkbox is clicked
+color.addEventListener("click", function () {
+	let toasterColor, toastColor;
+	switch (colorChecked) {
+		case true:
+		toasterColor = 'tstrNoColor';
+		toastColor = 'tstNoColor';
+		colorChecked = false;
+		checkbox.setAttribute('src', 'imgs/checkbox.png');
+		break;
+
+		case false:
+			toasterColor = 'tstrColor';
+			switch (burntStatus.textContent){
+				case 'Light':
+				toastColor = 'tstLight';
+				break;
+				case 'Medium':
+				toastColor = 'tstMedium';
+				break;
+				case 'Burnt':
+				toastColor = 'tstDark';
+				break;
+		}
+		checkbox.setAttribute('src', 'imgs/checkboxChecked.png');
+		colorChecked = true;
+		break;
+	}
+	spriteChange(toasterColor, toastColor, false);
+});
+
+// Hides control panel and shows icon
+exit.addEventListener("click", function() {
+	panel.style.display = "none";
+	panelIcon.style.display = "block";
+});
+
+// Shows control panel and hides icon
+panelIcon.addEventListener("click", function() {
+	panelIcon.style.display = "none";
+	panel.style.display = "grid";
+});
 
 for (let i = 0; i < flyingObjs; i++) {
 	spawnFlyers();
