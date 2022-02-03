@@ -7,63 +7,65 @@
 	<link rel="stylesheet" type="text/css" href="CSS/flyingToastersStyle.css">
 </head>
 <body>
-	<div class="cntrlPnl" id="cntrlPnl">
-		<div class="header" id="header">
-			<img src="imgs/LinesSmall.png">
-			<img src="imgs/exit.png" id="exit">
-			<p>After Dark 2.Ox</p>
-		</div>
-		<div class="gapLeft">
-		</div>
-		<div class="banner">
-			<img src="imgs/Banner.png">
-			<img src="imgs/fletter.png" style="position:relative; bottom:13px; left:41px">
-		</div>
-		<div class="onOff">
-			<label style="position:relative; left:3px">
-				Off <img src="imgs/switchOn.png" style="position: relative; top: 2px;" /> On
-			</label>
-			<img src="imgs/btnWhen.png" style="position:relative; left:2px; float: left;">
-		</div>
-		<div class="secondRow">
-			<div class="select">
-				<img src="imgs/Select.png" style="position:relative; left:2px; top: 2px;">
+	<div class="overflowWrapper">
+		<div class="cntrlPnl" id="cntrlPnl">
+			<div class="header" id="header">
+				<img src="imgs/LinesSmall.png">
+				<img src="imgs/exit.png" id="exit">
+				<p>After Dark 2.Ox</p>
 			</div>
-			
-			<div class="settings">
-				<div class="slider">
-				<input type="range" min="5" max="50" value="15" id="flying-objects-slider">
-				<p>Flying objects:<span id="flying-objects-count">15</span></p>
-				<input type="range" min="1" max="100" value="1" id="burntness-slider">
-				<p>Toast:<span id="burntness-status">Light</span></p>
-				</div>
-				<div class="buttons">
-				<label id="color">
-					<img src="imgs/checkboxChecked.png" style="padding-right: 5px; position: relative; top: 3px;" id="checkbox" />Color
+			<div class="gapLeft">
+			</div>
+			<div class="banner">
+				<img src="imgs/Banner.png">
+				<img src="imgs/fletter.png" style="position:relative; bottom:14px; left:41px">
+			</div>
+			<div class="onOff">
+				<label style="position:relative; left:3px">
+					Off <img src="imgs/switchOn.png" style="position: relative; top: 2px;" /> On
 				</label>
+				<img src="imgs/btnWhen.png" style="position:relative; left:2px; float: left;">
+			</div>
+			<div class="secondRow">
+				<div class="select">
+					<img src="imgs/Select.png" style="position:relative; left:2px; top: 2px;">
 				</div>
-				<div class="blank-space">
-				</div>
-				<div class="bottom-settings">
-					<img src="imgs/cntrlVolume.png">
-					<img src="imgs/volume.png">
-					<span style="width:25px"></span>
-					<img src="imgs/btnDemo.png" >
+				
+				<div class="settings">
+					<div class="slider">
+					<input type="range" min="5" max="50" value="15" id="flying-objects-slider">
+					<p>Flying objects:<span id="flying-objects-count">15</span></p>
+					<input type="range" min="1" max="100" value="1" id="burntness-slider">
+					<p>Toast:<span id="burntness-status">Light</span></p>
+					</div>
+					<div class="buttons">
+					<label id="color">
+						<img src="imgs/checkboxChecked.png" style="padding-right: 5px; position: relative; top: 3px;" id="checkbox" />Color
+					</label>
+					</div>
+					<div class="blank-space">
+					</div>
+					<div class="bottom-settings">
+						<img src="imgs/cntrlVolume.png">
+						<img src="imgs/volume.png">
+						<span style="width:25px"></span>
+						<img src="imgs/btnDemo.png" >
+					</div>
 				</div>
 			</div>
+			<div class="credits">
+				<p style="position:relative; bottom:15px">Flying Toasters by J. Eastman & P. Beard.</p>
+				<p style="position:relative; bottom:39px">©1990-93 Berkeley Systems Inc.</p>
+				<img src="imgs/arrow.png" style="position:relative; bottom:71px; left:208px">
+			</div>
+			<div class="gapRight">
+			</div>
 		</div>
-		<div class="credits">
-			<p style="position:relative; bottom:15px">Flying Toasters by J. Eastman & P. Beard.</p>
-			<p style="position:relative; bottom:39px">©1990-93 Berkeley Systems Inc.</p>
-			<img src="imgs/arrow.png" style="position:relative; bottom:71px; left:208px">
-		</div>
-		<div class="gapRight">
-		</div>
-	</div>
 
-	<div class="panelIcon" id="panelIcon"></div>
+		<div class="panelIcon" id="panelIcon"></div>
 
-	<div class="toasters" id="toasters">
+		<div class="toasters" id="toasters">
+		</div>
 	</div>
 
 	<script src="JS/Main.js" type="text/javascript">
