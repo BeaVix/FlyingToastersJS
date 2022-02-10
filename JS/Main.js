@@ -48,15 +48,15 @@ class flyer{
 		return this._HTMLElement;
 	}
 
-	moveX(){
+	moveX(pxls){
 		let moveObj = this.HTMLElement();
-		this._posX -= 1;
+		this._posX -= pxls;
 		moveObj.style.left = this._posX + "px";
 	}
 
-	moveY(){
+	moveY(pxls){
 		let moveObj = this.HTMLElement();
-		this._posY -= 1;
+		this._posY -= pxls;
 		moveObj.style.bottom = this._posY + "px";
 	}
 	
@@ -84,9 +84,9 @@ class flyer{
 
 	// Randomizes type and attributes of object
 	reset(){
-		let choose = Math.floor(Math.random() *2);
+		let choose = Math.floor(Math.random() * 2);
 		let colorClass, newType, changeFrom;
-		let speed =  Math.floor(Math.random() * 3) + 1;
+		this.speed =  (Math.random() * 2) + 1;
 		switch (choose){
 			case 0: //Object is toaster
 				newType = "toaster";
@@ -99,23 +99,12 @@ class flyer{
 						colorClass = "tstrNoColor";
 						break;
 				}
-
-			switch(speed){
-				case 1:
-					this.speed = 30;
-					break;
-				case 2:
-					this.speed = 15;
-					break;
-				case 3:
-					this.speed = 6;
-					break;
-			}
 			break;
 
 			case 1: //Object is toast
 				newType = "toast";
 				changeFrom = "toaster";
+				this.speed = 1;
 				if (colorChecked == true) { //checks color and current burntness status
 					switch (burntStatus.textContent){
 						case "Light":
@@ -131,11 +120,9 @@ class flyer{
 				} else{
 					colorClass = "tstNoColor";
 				}
-			this.speed = 30;
 			break;
 		}
 		this.changeType(changeFrom, newType, colorClass);
-		this.fly();
 	}
 
 	// Sets interval that moves object until it reaches edges of the screen
@@ -144,33 +131,31 @@ class flyer{
 		let elmnt = this.HTMLElement();
 		const targetPos = -64;
 		const obj = this;
-		const animator = setInterval(function() {
-			if (actualPosX == targetPos) {
-				clearInterval(animator);
+		const animator = requestAnimationFrame(animate);
+		obj._animator = animator;
+		function animate() {
+			if (actualPosX <= targetPos) {
 				elmnt.style.left = scrnWidth;
 				obj._posX = scrnWidth;
 				actualPosX = obj._posX;
 				obj.reset()
-			} else if (actualPosY == targetPos) {
-				clearInterval(animator);
+			} else if (actualPosY <= targetPos) {
 				elmnt.style.bottom = scrnHeight;
 				obj._posY = scrnHeight;
 				actualPosY = obj.posY;
 				obj.reset();
 			} else{
-				obj.moveX();
+				obj.moveX(obj.speed);
 				actualPosX = obj.posX;
-				obj.moveY();
+				obj.moveY(obj.speed);
 				actualPosY = obj.posY;
 			}
-		}, obj.speed);
-		this._interval = animator;
-	} 
-
-	// Clears currently running interval
-	stop(){
-		clearInterval(this._interval);
+			requestAnimationFrame(animate);
 		}
+	}
+	stop(){
+		cancelAnimationFrame(this._animator);
+	}
 }
 
 const flyingObjsSlider = document.getElementById('flying-objects-slider'), flyingObjsCount = document.getElementById('flying-objects-count');
@@ -180,8 +165,21 @@ const panel = document.getElementById('cntrlPnl'), header = document.getElementB
 const panelIcon = document.getElementById('panelIcon');
 const node = document.getElementById('toasters');
 const scrnWidth = window.screen.availWidth, scrnHeight = window.screen.availHeight;
+const requestAnimationFrame = window.requestAnimationFrame || 
+							window.mozRequestAnimationFrame || 
+							window.webkitRequestAnimationFrame || 
+							window.msRequestAnimationFrame;
+
+const cancelAnimationFrame = window.cancelAnimationFrame || 
+							window.mozCancelAnimationFrame || 
+							window.webkitCanceltAnimationFrame || 
+							window.msCancelAnimationFrame;
 
 let flyingObjs = 15, totalToasters = 0, totalToasts = 0, totalFlyers = 0, totalHiddens = 0, colorChecked = true;
+
+for (let i = 0; i < flyingObjs; i++) {
+	spawnFlyers();
+}
 
 // Creates new flyer object and randomizes it's attributes
 function spawnFlyers() {
@@ -193,18 +191,7 @@ function spawnFlyers() {
 		case 0: //Object is toaster
 		totalToasters += 1;
 		type = 'toaster';
-		speed = (Math.floor(Math.random() * 3));
-		switch(speed){
-			case 0:
-			speed = 30;
-			break;
-			case 1:
-			speed = 15;
-			break;
-			case 2:
-			speed = 6;
-			break;
-		}
+		speed = (Math.random() * 2) + 1;
 		existsID = type + totalToasters;
 		exists = document.getElementById(existsID);
 		pass = 1;
@@ -227,7 +214,7 @@ function spawnFlyers() {
 		case 1: //Object is toast
 		totalToasts += 1;
 		type = 'toast';
-		speed = 30;
+		speed = 1;
 		existsID = type + totalToasts;
 		exists = document.getElementById(existsID);
 		pass = 1;
@@ -457,7 +444,3 @@ panelIcon.addEventListener("click", function() {
 	panelIcon.style.display = "none";
 	panel.style.display = "grid";
 });
-
-for (let i = 0; i < flyingObjs; i++) {
-	spawnFlyers();
-}
