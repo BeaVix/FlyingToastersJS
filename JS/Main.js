@@ -85,12 +85,25 @@ class flyer{
 	// Randomizes type and attributes of object
 	reset(){
 		let choose = Math.floor(Math.random() * 2);
-		let colorClass, newType, changeFrom;
-		this.speed =  (Math.random() * 2) + 1;
+		let colorClass, newType, changeFrom, speedChoose; 
 		switch (choose){
 			case 0: //Object is toaster
 				newType = "toaster";
 				changeFrom = "toast";
+				speedChoose = Math.floor(Math.random() * 4);
+
+				switch(speedChoose){
+					case 0:
+						this.speed = 1;
+						break;
+					case 1:
+						this.speed = 1.5;
+						break;
+					case 3:
+						this.speed = 2;
+						break;
+				}
+
 				switch(colorChecked) {
 					case true:
 						colorClass = "tstrColor";
@@ -105,27 +118,30 @@ class flyer{
 				newType = "toast";
 				changeFrom = "toaster";
 				this.speed = 1;
-				if (colorChecked == true) { //checks color and current burntness status
-					switch (burntStatus.textContent){
-						case "Light":
-							colorClass = "tstLight";
-							break;
-						case "Medium":
-							colorClass = "tstMedium";
-							break;
-						case "Burnt":
-							colorClass = "tstDark";
-							break
-					}
-				} else{
-					colorClass = "tstNoColor";
+				switch (colorChecked){ //checks color and current burntness status
+					case true:
+						switch (burntStatus.textContent){
+							case "Light":
+								colorClass = "tstLight";
+								break;
+							case "Medium":
+								colorClass = "tstMedium";
+								break;
+							case "Burnt":
+								colorClass = "tstDark";
+								break
+						}
+						break;
+					case false:
+						colorClass = "tstNoColor";
+						break;
 				}
 			break;
 		}
 		this.changeType(changeFrom, newType, colorClass);
 	}
 
-	// Sets interval that moves object until it reaches edges of the screen
+	// Moves object until it reaches edges of the screen
 	fly(){
 		let actualPosX = this._posX, actualPosY = this._posY;
 		let elmnt = this.HTMLElement();
@@ -177,6 +193,9 @@ const cancelAnimationFrame = window.cancelAnimationFrame ||
 
 let flyingObjs = 15, totalToasters = 0, totalToasts = 0, totalFlyers = 0, totalHiddens = 0, colorChecked = true;
 
+flyingObjsSlider.value = flyingObjs;
+burntness.value = 0;
+
 for (let i = 0; i < flyingObjs; i++) {
 	spawnFlyers();
 }
@@ -189,60 +208,72 @@ function spawnFlyers() {
 	let HTMLFlyer = document.createElement('div');
 	switch(choose){
 		case 0: //Object is toaster
-		totalToasters += 1;
-		type = 'toaster';
-		speed = (Math.random() * 2) + 1;
-		existsID = type + totalToasters;
-		exists = document.getElementById(existsID);
-		pass = 1;
-		while (exists != null){
-			existsID = type + (totalToasters + pass);
+			totalToasters += 1;
+			type = 'toaster';
+			speed = Math.floor(Math.random() * 4);
+			existsID = type + totalToasters;
 			exists = document.getElementById(existsID);
-			pass += 1;
-		}
+			pass = 1;
+			while (exists != null){
+				existsID = type + (totalToasters + pass);
+				exists = document.getElementById(existsID);
+				pass += 1;
+			}
 
-		switch (colorChecked) {
-			case true:
-			HTMLFlyer.className = "toaster tstrColor";
-			break;
-			case false:
-			HTMLFlyer.className = "toaster tstrNoColor"
-			break;
-		}
-		break;
+			switch(speed){
+				case 0:
+					speed = 1;
+					break;
+				case 1:
+					speed = 1.5;
+					break;
+				case 2:
+					speed = 2;
+					break;
+			}
 
-		case 1: //Object is toast
-		totalToasts += 1;
-		type = 'toast';
-		speed = 1;
-		existsID = type + totalToasts;
-		exists = document.getElementById(existsID);
-		pass = 1;
-		while (exists != null){
-			existsID = type + (totalToasts + pass);
-			exists = document.getElementById(existsID);
-			pass += 1;
-		}
-
-		switch (colorChecked) {
-			case true:
-			switch (burntStatus.textContent){
-				case "Light":
-				HTMLFlyer.className = "toast tstLight";
+			switch (colorChecked) {
+				case true:
+				HTMLFlyer.className = "toaster tstrColor";
 				break;
-				case "Medium":
-				HTMLFlyer.className = "toast tstMedium";
-				break;
-				case "Burnt":
-				HTMLFlyer.className = "toast tstDark";
+				case false:
+				HTMLFlyer.className = "toaster tstrNoColor"
 				break;
 			}
 			break;
-			case false:
-			HTMLFlyer.className = "toast tstNoColor"
+
+		case 1: //Object is toast
+			totalToasts += 1;
+			type = 'toast';
+			speed = 1;
+			existsID = type + totalToasts;
+			exists = document.getElementById(existsID);
+			pass = 1;
+			while (exists != null){
+				existsID = type + (totalToasts + pass);
+				exists = document.getElementById(existsID);
+				pass += 1;
+			}
+
+			switch (colorChecked) {
+				case true:
+				switch (burntStatus.textContent){
+					case "Light":
+					HTMLFlyer.className = "toast tstLight";
+					break;
+					case "Medium":
+					HTMLFlyer.className = "toast tstMedium";
+					break;
+					case "Burnt":
+					HTMLFlyer.className = "toast tstDark";
+					break;
+				}
+				break;
+				case false:
+				HTMLFlyer.className = "toast tstNoColor"
+				break;
+			}
 			break;
-		}
-		break;
 	}
 	eval("Flyer_" + totalFlyers + " = new flyer(type, posX, posY, speed, existsID)");
 	eval("var newFlyer = Flyer_" + totalFlyers);
