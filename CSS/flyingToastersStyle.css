@@ -192,6 +192,16 @@ body{
 
 #checkbox{
 	cursor: pointer;
+	height: 12px;
+	width: 12px;
+}
+
+#checkbox.checked{
+	background-image: url(../imgs/checkboxChecked.png);
+}
+
+#checkbox.unchecked{
+	background-image: url(../imgs/checkbox.png);
 }
 
 .blank-space{
@@ -275,7 +285,7 @@ body{
 	background-image: url('../imgs/toastMedium.gif');
 }
 
-.tstDark{
+.tstBurnt{
 	background-image: url(../imgs/toastBurnt.gif);
 }
 
