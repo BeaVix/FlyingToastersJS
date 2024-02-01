@@ -55,8 +55,7 @@ function spawnFlyers() {
 	objects.push(obj.replacement);
 	const objElement = obj.HTMLElement()
 	const borderEventHandler = (e)=>{
-		const element = e.target;
-		const objectElement = objects.find(elmnt=>elmnt.ID == parseInt(element.id));
+		const objectElement = objects.find(elmnt=>elmnt.ID == parseInt(e.target.id));
 		const choice = Math.floor(Math.random()*2);
 		if((choice && objectElement instanceof Toaster) || (!choice && objectElement instanceof Toast))
 		{
@@ -90,13 +89,13 @@ function randSpeed()
 
 //Updates toasts burntness and slider text when the slider's value changes
 burntness.oninput = function() {
-	if (this.value == "1" || this.value < 50) {
+	if (this.value < 50) {
 		burntStatus.innerHTML = "Light";
 
-	} else if (this.value == "50" || this.value < 100) {
+	} else if (this.value < 100) {
 		burntStatus.innerHTML = "Medium";
 
-	} else if (this.value == "100"){
+	} else if (this.value == 100){
 		burntStatus.innerHTML = "Burnt"
 	}
 	if(colorChecked)
